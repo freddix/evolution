@@ -1,13 +1,13 @@
-%define		basever	3.6
+%define		basever	3.8
 
 Summary:	The GNOME Email/Calendar/Addressbook Suite
 Name:		evolution
-Version:	%{basever}.4
+Version:	%{basever}.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/gnome/sources/evolution/%{basever}/%{name}-%{version}.tar.xz
-# Source0-md5:	699c29a0179df3866ecc2f972bc626a4
+# Source0-md5:	73391003d81db656a9e91814cbd08fe4
 Patch0:		%{name}-nolibs.patch
 URL:		http://www.ximian.com/products/ximian_evolution/
 BuildRequires:	autoconf
@@ -92,16 +92,18 @@ sed -i -e 's/GNOME_COMPILE_WARNINGS.*//g'	\
 %{__autoconf}
 %{__automake}
 %configure \
+	BOGOFILTER="/usr/bin/bogofilter"		\
+	HIGHLIGHT="/usr/bin/highlight"			\
 	--disable-pst-import				\
 	--disable-schemas-compile			\
 	--disable-silent-rules				\
+	--disable-spamassassin				\
 	--disable-static				\
 	--enable-canberra				\
 	--enable-nss=yes				\
 	--enable-smime=yes				\
 	--enable-weather				\
 	--with-html-dir=%{_gtkdocdir}			\
-	--with-kde-applnk-path=no 			\
 	--with-nspr-includes="%{_includedir}/nspr" 	\
 	--with-nspr-libs="%{_libdir}"			\
 	--with-nss-includes="%{_includedir}/nss"	\
@@ -159,29 +161,24 @@ rm -rf $RPM_BUILD_ROOT
 
 %attr(755,root,root) %{_bindir}/evolution
 
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-audio-inline.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-backup-restore.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-book-config-google.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-book-config-ldap.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-book-config-local.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-book-config-webdav.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-cal-config-caldav.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-cal-config-contacts.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-cal-config-google.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-cal-config-local.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-cal-config-weather.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-cal-config-webcal.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-imap-features.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-itip-formatter.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-mail-config.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-prefer-plain.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-text-highlight.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-vcard-inline.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}//modules/module-web-inspector.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-addressbook.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-audio-inline.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-backup-restore.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-bogofilter.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-book-config-google.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-book-config-ldap.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-book-config-local.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-book-config-webdav.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-cal-config-caldav.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-cal-config-contacts.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-cal-config-google.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-cal-config-local.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-cal-config-weather.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-cal-config-webcal.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-calendar.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-composer-autosave.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-itip-formatter.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mail-config.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mail.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mailto-handler.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mdn.so
@@ -189,8 +186,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-online-accounts.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-plugin-lib.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-plugin-manager.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-spamassassin.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-prefer-plain.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-settings.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-startup-wizard.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-text-highlight.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-vcard-inline.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-web-inspector.so
 
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/csv2vcard
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/evolution-addressbook-export
@@ -323,5 +324,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/eshell
+%{_gtkdocdir}/libeshell
+%{_gtkdocdir}/libeutil
 
