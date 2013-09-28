@@ -1,24 +1,24 @@
-%define		basever	3.8
+%define		basever	3.10
 
 Summary:	The GNOME Email/Calendar/Addressbook Suite
 Name:		evolution
-Version:	%{basever}.5
+Version:	%{basever}.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/gnome/sources/evolution/%{basever}/%{name}-%{version}.tar.xz
-# Source0-md5:	5ba2002066100c8e9fe28b78bb34f536
+# Source0-md5:	01c3f4f73bc236b95f74afedf9f463ca
 Patch0:		%{name}-nolibs.patch
 URL:		http://www.ximian.com/products/ximian_evolution/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	dbus-glib-devel
-BuildRequires:	evolution-data-server-devel
+BuildRequires:	evolution-data-server-devel >= 3.10.0
 BuildRequires:	flex
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-doc-utils >= 0.20.10
-BuildRequires:	gnome-online-accounts-devel
+BuildRequires:	gnome-online-accounts-devel >= 3.10.0
 BuildRequires:	gstreamer-devel
 BuildRequires:	gtk-doc
 BuildRequires:	gtkhtml-devel
@@ -40,7 +40,7 @@ Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	glib-gio-gsettings
 Requires(post,postun):	hicolor-icon-theme
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	evolution-data-server
+Requires:	evolution-data-server >= 3.10.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -177,13 +177,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-cal-config-webcal.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-calendar.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-composer-autosave.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-contact-photos.so
+%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-gravatar.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-itip-formatter.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mail-config.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mail.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mailto-handler.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-mdn.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-offline-alert.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-online-accounts.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-plugin-lib.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-plugin-manager.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-prefer-plain.so
@@ -209,7 +210,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/plugins/liborg-gnome-mail-notification.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/plugins/liborg-gnome-mail-to-task.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/plugins/liborg-gnome-mailing-list-actions.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}/plugins/liborg-gnome-mark-all-read.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/plugins/liborg-gnome-prefer-plain.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/plugins/liborg-gnome-publish-calendar.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/plugins/liborg-gnome-save-calendar.so
@@ -324,6 +324,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/libeshell
-%{_gtkdocdir}/libeutil
+%{_gtkdocdir}/evolution-mail-composer
+%{_gtkdocdir}/evolution-mail-formatter
+%{_gtkdocdir}/evolution-shell
+%{_gtkdocdir}/evolution-util
 
