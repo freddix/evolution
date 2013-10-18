@@ -2,19 +2,19 @@
 
 Summary:	The GNOME Email/Calendar/Addressbook Suite
 Name:		evolution
-Version:	%{basever}.0
+Version:	%{basever}.1
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/gnome/sources/evolution/%{basever}/%{name}-%{version}.tar.xz
-# Source0-md5:	01c3f4f73bc236b95f74afedf9f463ca
+# Source0-md5:	53199a7863b23d177774362d33993774
 Patch0:		%{name}-nolibs.patch
 URL:		http://www.ximian.com/products/ximian_evolution/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	dbus-glib-devel
-BuildRequires:	evolution-data-server-devel >= 3.10.0
+BuildRequires:	evolution-data-server-devel >= 3.10.1
 BuildRequires:	flex
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-doc-utils >= 0.20.10
