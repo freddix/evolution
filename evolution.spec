@@ -1,24 +1,23 @@
-%define		basever	3.10
+%define		basever	3.12
 
 Summary:	The GNOME Email/Calendar/Addressbook Suite
 Name:		evolution
-Version:	%{basever}.4
+Version:	%{basever}.0
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/gnome/sources/evolution/%{basever}/%{name}-%{version}.tar.xz
-# Source0-md5:	f19aea3477f72c5afa51f4b3e4a8adf5
+# Source0-md5:	5ec7a2828eef2dac3da2a1de18d1188c
 Patch0:		%{name}-nolibs.patch
 URL:		http://www.ximian.com/products/ximian_evolution/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	dbus-glib-devel
-BuildRequires:	evolution-data-server-devel >= 3.10.3
+BuildRequires:	evolution-data-server-devel >= 3.12.0
 BuildRequires:	flex
 BuildRequires:	gettext-devel
-BuildRequires:	gnome-doc-utils >= 0.20.10
-BuildRequires:	gnome-online-accounts-devel >= 3.10.0
+BuildRequires:	gnome-online-accounts-devel >= 3.12.0
 BuildRequires:	gstreamer-devel
 BuildRequires:	gtk-doc
 BuildRequires:	gtkhtml-devel
@@ -40,7 +39,7 @@ Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	glib-gio-gsettings
 Requires(post,postun):	hicolor-icon-theme
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	evolution-data-server >= 3.10.3
+Requires:	evolution-data-server >= 3.12.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -119,18 +118,16 @@ find -name \*.idl -exec touch {} \;
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{16x16,48x48}/apps
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/{ca@valencia,en@shaw}
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/locale/{ca@valencia,en@shaw}
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/evolution/*/*/*.la
-rm -rf $RPM_BUILD_ROOT%{_datadir}/mime-info
-rm -rf $RPM_BUILD_ROOT%{_sysconfdir}/gconf
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/evolution/*/{,*/}*.la
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/GConf
 
-%find_lang %{name} --all-name --with-omf --with-gnome
+%find_lang %{name} --all-name --with-gnome
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -162,7 +159,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/evolution
 
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-addressbook.so
-%attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-audio-inline.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-backup-restore.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-bogofilter.so
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/modules/module-book-config-google.so
@@ -318,13 +314,13 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/evolution/%{basever}/lib*.so
-%{_libdir}/evolution/%{basever}/*.la
 %{_includedir}/%{name}-%{basever}
 %{_pkgconfigdir}/*.pc
 
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/evolution-mail-composer
+%{_gtkdocdir}/evolution-mail-engine
 %{_gtkdocdir}/evolution-mail-formatter
 %{_gtkdocdir}/evolution-shell
 %{_gtkdocdir}/evolution-util
