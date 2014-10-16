@@ -2,25 +2,26 @@
 
 Summary:	The GNOME Email/Calendar/Addressbook Suite
 Name:		evolution
-Version:	%{basever}.1
+Version:	%{basever}.7
 Release:	1
 License:	GPL v2
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/gnome/sources/evolution/%{basever}/%{name}-%{version}.tar.xz
-# Source0-md5:	03fd35c2ec39a90221c16400f8797623
+# Source0-md5:	afae5a7d801e37480ab0e5bd5a074e29
 Patch0:		%{name}-nolibs.patch
 URL:		http://www.ximian.com/products/ximian_evolution/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	bison
 BuildRequires:	dbus-glib-devel
-BuildRequires:	evolution-data-server-devel >= 3.12.0
+BuildRequires:	evolution-data-server-devel >= 3.12.7
 BuildRequires:	flex
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-online-accounts-devel >= 3.12.0
 BuildRequires:	gstreamer-devel
 BuildRequires:	gtk-doc
 BuildRequires:	gtkhtml-devel
+BuildRequires:	gtkspell3-devel
 BuildRequires:	intltool
 BuildRequires:	libcanberra-gtk3-devel
 BuildRequires:	libgdata-devel
@@ -39,7 +40,7 @@ Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	glib-gio-gsettings
 Requires(post,postun):	hicolor-icon-theme
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	evolution-data-server >= 3.12.0
+Requires:	evolution-data-server >= 3.12.7
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
